@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="static/css/home.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -19,6 +21,57 @@
             padding: 0;
             margin: 0;
         }
+        #infoSidebar {
+        width: 350px;  /* Ancho del sidebar */
+        height: auto;  /* Ajusta la altura automáticamente según el contenido */
+        max-height: 60%;  /* Limita la altura máxima del sidebar (porcentaje de la altura total de la ventana) */
+        position: fixed;  /* Lo coloca de manera fija en la pantalla */
+        top: 30%;  /* Deja un pequeño margen en la parte superior */
+        left: -300px;  /* Inicialmente oculto */
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px;
+        z-index: 999;  /* Asegúrate de que esté sobre otros elementos */
+        box-shadow: 2px 0 2px rgba(0, 0, 0, 0.3);  /* Sombra para dar efecto flotante */
+        transition: left 0.3s ease-in-out;  /* Transición suave */
+        overflow-y: auto;  /* Si el contenido es largo, agrega barra de desplazamiento */
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, sans-serif;  /* Cambié la fuente a Arial */
+        font-size: 10px;  /* Tamaño de fuente más pequeño */
+        text-align: justify;  /* Justificar el texto dentro del sidebar */
+        color: #304691;  /* Color gris para el texto */
+        border-radius: 15px;  /* Bordes suaves */
+        overflow: hidden;  /* Ocultar el desbordamiento fuera del contenedor */
+        }
+        /* Justificar el texto dentro de la tabla de estratificación */
+        #infoSidebar table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: justify;  /* Justificar el texto dentro de la tabla */
+            border-radius: 10px;  /* Bordes suaves para la tabla */
+        }
+
+        #infoSidebar th, #infoSidebar td {
+            padding: 5px;
+            text-align: left;  /* Asegura que los textos en las celdas estén alineados a la izquierda */
+        }
+
+        #infoSidebar td {
+            color: #808080;  /* Color gris para las celdas */
+        }
+        /* Estilo de la caja de desplazamiento, asegurando que el borde se mantenga redondeado */
+        #infoSidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #infoSidebar::-webkit-scrollbar-thumb {
+            background-color: rgba(84, 82, 82, 0.3); /* Color de la barra de desplazamiento */
+            border-radius: 10px;  /* Bordes suaves en la barra de desplazamiento */
+        }
+
+        #infoSidebar::-webkit-scrollbar-track {
+            background-color: #f1f1f1;  /* Color de fondo de la pista */
+            border-radius: 10px;  /* Bordes suaves en la pista de desplazamiento */
+        }
+        
         </style>
         <title></title>
     </head>
@@ -45,6 +98,8 @@
         <script src="data/Departamentos_6.js"></script>
         <script src="data/Provincias_7.js"></script>
         <script src="data/Distritos_8.js"></script>
+        <!-- Referencia al archivo descripcion.js -->
+        <script src="static/js/descripcion.js"></script>        
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -60,7 +115,9 @@
                 fillOpacity: 1
               });
             }
+            highlightLayer.openPopup();
         }
+
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:5.5
         }).fitBounds([[-18,-85],[-1,-68]]);
@@ -111,6 +168,7 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
+        
         map.createPane('pane_OpenStreetMap_0');
         map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
         var layer_OpenStreetMap_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -140,10 +198,21 @@
                             e.target._eventParents[i].resetStyle(e.target);
                         }
                     }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
                 },
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Tipologias</th>\
+                        <td>' + (feature.properties['Tipologias'] !== null ? '<strong>'+autolinker.link(String(feature.properties['Tipologias']).replace(/'/g, '\'').toLocaleString())+'</strong>' : '') + '</td>\
+                    </tr>\
                     <tr>\
                         <th scope="row">UBIGEO</th>\
                         <td>' + (feature.properties['UBIGEO'] !== null ? autolinker.link(String(feature.properties['UBIGEO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -160,10 +229,6 @@
                         <th scope="row">ÁREA KM2</th>\
                         <td>' + (feature.properties['AREA_KM2'] !== null ? autolinker.link(String(feature.properties['AREA_KM2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
-                    <tr>\
-                        <th scope="row">Tipologias</th>\
-                        <td>' + (feature.properties['Tipologias'] !== null ? autolinker.link(String(feature.properties['Tipologias']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -179,7 +244,7 @@
                 pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
                 stroke: false, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.6, // Control de la opacidad
                 fillColor: 'rgba(230,0,0,1.0)',
                 interactive: true,
             }
@@ -189,7 +254,7 @@
                 pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
                 stroke: false, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.6, 
                 fillColor: 'rgba(255,170,0,1.0)',
                 interactive: true,
             }
@@ -199,7 +264,7 @@
                 pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
                 stroke: false, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.6, 
                 fillColor: 'rgba(122,182,245,1.0)',
                 interactive: true,
             }
@@ -209,8 +274,8 @@
                 pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
                 stroke: false, 
                 fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,255,190,1.0)',
+                fillOpacity: 0.6, 
+                fillColor: 'rgba(250,250,138,1.0)',
                 interactive: true,
             }
                     break;
@@ -219,7 +284,7 @@
                 pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
                 stroke: false, 
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.6, 
                 fillColor: 'rgba(211,255,190,1.0)',
                 interactive: true,
             }
@@ -237,9 +302,43 @@
             pane: 'pane_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2',
             onEachFeature: pop_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2,
             style: style_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_0,
+            smoothFactor: 1.5 // Aplicar suavizado en los bordes
         });
         bounds_group.addLayer(layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2);
         map.addLayer(layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2);
+
+        //     // Función para actualizar la opacidad según el zoom
+        // function updateOpacityBasedOnZoom() {
+        //     var zoomLevel = map.getZoom(); // Obtener el nivel de zoom actual
+        //     var opacityValue = 1; // Valor predeterminado de opacidad
+
+        //     // Cambiar la opacidad dependiendo del nivel de zoom
+        //     if (zoomLevel <= 7) {
+        //         opacityValue = 1; // Opacidad máxima (más visible a nivel nacional)
+        //     } else if (zoomLevel <= 10) {
+        //         opacityValue = 0.7; // 70% opaco
+        //     } else if (zoomLevel <= 13) {
+        //         opacityValue = 0.4; // 40% opaco
+        //     } else if (zoomLevel <= 15) {
+        //         opacityValue = 0.2; // 20% opaco
+        //     } else {
+        //         opacityValue = 0.1; // 10% opaco cuando está más cerca (a nivel local)
+        //     }
+
+        //     // Aplicar la opacidad en la capa Tipologías
+        //     layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2.setStyle({
+        //         fillOpacity: opacityValue,
+        //         opacity: opacityValue
+        //     });
+        // }
+
+        // // Llamar a la función para actualizar la opacidad cuando el zoom cambie
+        // map.on('zoomend', function() {
+        //     updateOpacityBasedOnZoom();
+        // });
+
+        // // Inicializar la opacidad de la capa cuando se cargue el mapa
+        // updateOpacityBasedOnZoom();
         function pop_PIASgeorreferenciadas_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -818,33 +917,48 @@
         });
         bounds_group.addLayer(layer_Distritos_8);
         map.addLayer(layer_Distritos_8);
-        map.on("zoomend", function(e) {
-            if (map.getZoom() <= 10 && map.getZoom() >= 7) {
-                map.addLayer(layer_Provincias_7);
-            } else if (map.getZoom() > 10 || map.getZoom() < 7) {
-                map.removeLayer(layer_Provincias_7);
+        map.on("zoomend", function() {
+            // Asegurarse de que la capa de Departamentos siempre esté visible
+            if (!map.hasLayer(layer_Departamentos_6)) {
+                map.addLayer(layer_Departamentos_6);  // Asegurarse de que siempre esté visible
             }
-            if (map.getZoom() <= 19 && map.getZoom() >= 8) {
-                map.addLayer(layer_Distritos_8);
-            } else if (map.getZoom() > 19 || map.getZoom() < 8) {
-                map.removeLayer(layer_Distritos_8);
+
+            // Condición de zoom para Provincias (aparece entre zoom 10 y 14)
+            if (map.getZoom() >= 10 && map.getZoom() <= 14) {
+                if (!map.hasLayer(layer_Provincias_7)) {
+                    map.addLayer(layer_Provincias_7); // Agregar capa de Provincias
+                }
+            } else {
+                if (map.hasLayer(layer_Provincias_7)) {
+                    map.removeLayer(layer_Provincias_7); // Eliminar capa de Provincias
+                }
+            }
+
+            // Condición de zoom para Distritos (aparece entre zoom 14 y 28)
+            if (map.getZoom() >= 14 && map.getZoom() <= 28) {
+                if (!map.hasLayer(layer_Distritos_8)) {
+                    map.addLayer(layer_Distritos_8); // Agregar capa de Distritos
+                }
+            } else {
+                if (map.hasLayer(layer_Distritos_8)) {
+                    map.removeLayer(layer_Distritos_8); // Eliminar capa de Distritos
+                }
             }
         });
-            if (map.getZoom() <= 10 && map.getZoom() >= 7) {
-                map.addLayer(layer_Provincias_7);
-            } else if (map.getZoom() > 10 || map.getZoom() < 7) {
-                map.removeLayer(layer_Provincias_7);
-            }
-            if (map.getZoom() <= 19 && map.getZoom() >= 8) {
-                map.addLayer(layer_Distritos_8);
-            } else if (map.getZoom() > 19 || map.getZoom() < 8) {
-                map.removeLayer(layer_Distritos_8);
-            }
+
+        // Asegurarse de que las capas no se carguen al inicio si están fuera de su rango de zoom
+        if (map.getZoom() < 10 || map.getZoom() > 1) {
+            map.removeLayer(layer_Provincias_7); // Eliminar Provincias si no está en el rango adecuado
+        }
+        if (map.getZoom() < 13 || map.getZoom() > 28) {
+            map.removeLayer(layer_Distritos_8); // Eliminar Distritos si no está en el rango adecuado
+        }
+
         var overlaysTree = [            
             {label: '<img src="legend/Tambos_5.png" /> Tambos', layer: layer_Tambos_5},
             {label: '<img src="legend/Comedoresgeorreferenciados_4.png" /> Comedores georreferenciados', layer: layer_Comedoresgeorreferenciados_4},
             {label: '<img src="legend/PIASgeorreferenciadas_3.png" /> PIAS georreferenciadas', layer: layer_PIASgeorreferenciadas_3},
-            {label: 'Tipologias Territoriales en la Intervención de los Programas sociales<br /><table><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial10.png" /></td><td>Tipología Territorial 1</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial21.png" /></td><td>Tipología Territorial 2</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial32.png" /></td><td>Tipología Territorial 3</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial43.png" /></td><td>Tipología Territorial 4</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial54.png" /></td><td>Tipología Territorial 5</td></tr></table>', layer: layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2},
+            {label: 'Tipologías Territoriales en la Intervención de los Programas Sociales<br /><table><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial10.png" /></td><td class="long-text">Tipología Territorial 1</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial21.png" /></td><td class="long-text">Tipología Territorial 2</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial32.png" /></td><td class="long-text">Tipología Territorial 3</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial43.png" /></td><td class="long-text">Tipología Territorial 4</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial54.png" /></td><td class="long-text">Tipología Territorial 5</td></tr></table>', layer: layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2},
             {label: '<img src="legend/Distritos_8.png" /> Distritos', layer: layer_Distritos_8},
             {label: '<img src="legend/Provincias_7.png" /> Provincias', layer: layer_Provincias_7},
             {label: '<img src="legend/Departamentos_6.png" /> Departamentos', layer: layer_Departamentos_6},
@@ -976,5 +1090,8 @@
             resetLabels([layer_Departamentos_6,layer_Provincias_7,layer_Distritos_8]);
         });
         </script>
+        <!-- funcionabilidad mapa -->
+        <script src="static/js/mainMap.js"></script>
+        <script src="static/js/home.js"></script>
     </body>
 </html>
