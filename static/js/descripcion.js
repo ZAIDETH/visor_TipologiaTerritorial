@@ -10,7 +10,7 @@ function agregarCuadroEstratificacion() {
         closeButton.classList.add('close-btn');
         closeButton.textContent = '×';
         closeButton.style.float = 'right';  // Alinear el botón a la derecha
-        closeButton.style.backgroundColor = '#f1f1f1';
+        // closeButton.style.backgroundColor = '#f1f1f1';
         closeButton.style.border = 'none';
         closeButton.style.fontSize = '20px';
         closeButton.onclick = function() {
@@ -21,7 +21,7 @@ function agregarCuadroEstratificacion() {
         var title = document.createElement('h2');
         title.textContent = 'Estratificación de las Tipologías Territoriales de las Prestaciones Sociales';
         title.style.textAlign = 'center';  // Centrar el título
-        title.style.fontSize = '14px';
+        title.style.fontSize = '12px';
 
         // Crear la tabla para los niveles
         var table = document.createElement('table');
@@ -81,6 +81,8 @@ function agregarCuadroEstratificacion() {
             cell2.textContent = level.descripcion;
             cell2.style.color = '#403f3fff'; // Color del texto para mejor contraste
             cell2.style.padding = '6px'; // Espaciado interno
+            cell2.style.fontSize = '9px'; // Ajustar el tamaño de la fuente
+            cell2.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
             row.appendChild(cell1);
             row.appendChild(cell2);
             tbody.appendChild(row);
@@ -117,7 +119,7 @@ function agregarCuadroEstratificacion() {
             }
             #infoSidebar h2 {
                 margin-top: 0;
-                font-size: 18px;
+                font-size: 10px;
                 font-weight: bold;
             }
             #infoSidebar .close-btn {
@@ -132,6 +134,18 @@ function agregarCuadroEstratificacion() {
                 width: 100%;
                 border-collapse: collapse;
             }
+                #descripcionCollapseContent {
+                display: none;
+                padding: 8px;
+                font-size: 10px;
+                transition: background-color 0.3s ease; /* Transición para suavizar el cambio de color */
+                background-color: rgba(255, 255, 255, 0); /* Transparente por defecto */
+            }
+
+            #descripcionCollapseContent.open {
+                display: block;
+                background-color: #ffffff; /* Fondo blanco cuando está abierto */
+            }
                 
         `;
     }
@@ -145,7 +159,7 @@ function agregarCuadroEstratificacion() {
     sidebarToggleButton.style.top = '10px';
     sidebarToggleButton.style.left = '10px';
     sidebarToggleButton.style.padding = '6px';
-    sidebarToggleButton.style.backgroundColor = '#007bff';
+    sidebarToggleButton.style.backgroundColor = 'rgba(0, 123, 255, 0)';
     sidebarToggleButton.style.color = '#fff';
     sidebarToggleButton.style.border = 'none';
     sidebarToggleButton.style.fontSize = '14px';
@@ -189,10 +203,10 @@ function crearContenedorDescripcion() {
     container.style.position = 'fixed';
     container.style.top = '30%';
     container.style.left = '0.5%';
-    container.style.width = '400px';
-    container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
+    container.style.width = '320px';
+    // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
     container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
-    container.style.borderRadius = '6px';
+    container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
     container.style.overflow = 'hidden';
     container.style.zIndex = 1000;
     container.style.fontFamily = 'Arial, sans-serif';
@@ -202,7 +216,7 @@ function crearContenedorDescripcion() {
     // Crear el encabezado colapsable       
     var header = container.firstChild;
     var header = document.createElement('div');
-    header.style.background = '#2a7bf4';
+    // header.style.background = '#2a7bf4';
     header.style.color = '#fff';
     header.style.padding = '10px 6px';
     header.style.cursor = 'pointer';
@@ -215,11 +229,13 @@ function crearContenedorDescripcion() {
     content.style.display = 'none';
     content.style.padding = '8px';
     content.style.fontSize = '10px';
-
+    content.style.transition = 'background-color 0.3s ease';  // Suaviza el cambio de color
+    content.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';  // Transparente por defecto
+    content.style.borderRadius = '6px 6px 6px 6px'; // Bordes redondeados en la parte inferior
 
     // Alternar visibilidad al hacer clic en el encabezado
     header.onclick = function() {
-        content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+        content.classList.toggle('open'); // Agrega o quita la clase 'open'
     };
 
     // Agregar elementos al contenedor
@@ -293,7 +309,7 @@ function crearBotonEstratificacionControl() {
     // btn.style.background = '#2a7bf4';
     // btn.stle.color = '#fff';
     // btn.style.border = 'none';
-    // btn.style.borderRadius = '4px';
+    btn.style.borderRadius = '4px 4px 0 0'; // Bordes redondeados en la parte superior
     // btn.style.padding = '8px 12px';
     // btn.style.cursor = 'pointer';
     // btn.style.boxShadow = '1px 1px 6px rgba(0,0,0,0.15)';
@@ -322,11 +338,11 @@ L.Control.EstratificacionButton = L.Control.extend({
          btn.title = 'Mostrar Estratificación';
       
          // Estilo personalizado
-         btn.style.padding = '10px';
-         btn.style.backgroundColor = '#007bff';  // Color de fondo
-         btn.style.color = '#ffffff';  // Color de texto
+        //  btn.style.padding = '10px';
+        //  btn.style.backgroundColor = 'rgba(0, 123, 255, 0)';  // Color de fondo
+        //  btn.style.color = '#ffffff';  // Color de texto
          btn.style.border = 'none';
-         btn.style.borderRadius = '5px';
+         btn.style.borderRadius = '5px 5px 0 0'; // Bordes redondeados
          btn.style.cursor = 'pointer';
       
          // Acción al hacer clic
