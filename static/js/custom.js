@@ -13,6 +13,7 @@ window.onload = function() {
     
     // Crear barra de encabezado con toggle y texto alineados
     const controlLayersElement = document.querySelector('.leaflet-control-layers');
+    controlLayersElement.style.color = '#fff';
     const toggleControl = document.querySelector('.leaflet-control-layers-toggle');
 
     // Crear contenedor combinado

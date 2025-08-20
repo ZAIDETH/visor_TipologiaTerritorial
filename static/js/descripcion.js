@@ -40,6 +40,8 @@ function agregarCuadroEstratificacion() {
         headerCell1.style.textAlign = 'center'; // Centrar el texto del encabezado
         headerCell1.style.fontWeight = 'normal'; // Eliminar la negrita
         headerCell1.style.fontSize = '12px'; // Ajustar el tamaño de la fuente
+        headerCell1.style.fontWeight = 'bold'; // Negrita para destacar el encabezado
+        headerCell1.style.padding = '6px'; // Espaciado interno
         
         var headerCell2 = document.createElement('th');
         headerCell2.textContent = 'Descripción';
@@ -48,7 +50,8 @@ function agregarCuadroEstratificacion() {
         headerCell2.style.textAlign = 'center'; // Centrar el texto del encabezado
         headerCell2.style.fontWeight = 'normal'; // Eliminar la negrita
         headerCell2.style.fontSize = '12px'; // Ajustar el tamaño de la fuente
-
+        headerCell2.style.fontWeight = 'bold'; // Negrita para destacar el encabezado
+        headerCell2.style.padding = '6px'; // Espaciado interno
         // Agregar las celdas del encabezado a la fila del encabezado
         headerRow.appendChild(headerCell1);
         headerRow.appendChild(headerCell2);
@@ -71,8 +74,13 @@ function agregarCuadroEstratificacion() {
             cell1.textContent = level.nivel;
             cell1.style.backgroundColor = level.color; // Color de fondo de la celda según la tipología
             cell1.style.color = '#000000ff'; // Color del texto para mejor contraste
+            cell1.style.fontWeight = 'bold'; // Negrita para destacar
+            cell1.style.textAlign = 'center';
+            cell1.style.padding = '6px'; // Espaciado interno
             var cell2 = document.createElement('td');   
             cell2.textContent = level.descripcion;
+            cell2.style.color = '#403f3fff'; // Color del texto para mejor contraste
+            cell2.style.padding = '6px'; // Espaciado interno
             row.appendChild(cell1);
             row.appendChild(cell2);
             tbody.appendChild(row);
@@ -101,7 +109,7 @@ function agregarCuadroEstratificacion() {
                 bottom: 0;
                 left: -300px;  /* Oculto inicialmente */
                 background-color: rgba(255, 255, 255, 0.9);
-                padding: 20px;
+                padding: 10px;
                 z-index: 999;
                 box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
                 transition: left 0.3s ease-in-out;
@@ -124,6 +132,7 @@ function agregarCuadroEstratificacion() {
                 width: 100%;
                 border-collapse: collapse;
             }
+                
         `;
     }
 
@@ -134,8 +143,8 @@ function agregarCuadroEstratificacion() {
     sidebarToggleButton.textContent = 'Estratificación';
     sidebarToggleButton.style.position = 'absolute';
     sidebarToggleButton.style.top = '10px';
-    sidebarToggleButton.style.right = '10px';
-    sidebarToggleButton.style.padding = '10px';
+    sidebarToggleButton.style.left = '10px';
+    sidebarToggleButton.style.padding = '6px';
     sidebarToggleButton.style.backgroundColor = '#007bff';
     sidebarToggleButton.style.color = '#fff';
     sidebarToggleButton.style.border = 'none';
@@ -163,3 +172,177 @@ function toggleSidebar() {
 document.addEventListener('DOMContentLoaded', function () {
     agregarCuadroEstratificacion(); // Agrega el cuadro al cargar la página
 });
+
+
+/**
+ * Crea un contenedor colapsable para la descripción, similar a "Lista de capas".
+ */
+function crearContenedorDescripcion() {
+    // Verifica si ya existe el contenedor
+    if (document.getElementById('descripcionCollapseContainer')) return;
+
+    // Crear el contenedor principal
+    var container = document.createElement('div');
+    container.id = 'descripcionCollapseContainer';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.position = 'fixed';
+    container.style.top = '30%';
+    container.style.left = '0.5%';
+    container.style.width = '400px';
+    container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
+    container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
+    container.style.borderRadius = '6px';
+    container.style.overflow = 'hidden';
+    container.style.zIndex = 1000;
+    container.style.fontFamily = 'Arial, sans-serif';
+    container.style.transition = 'height 0.3s ease';  // Para animar el tamaño cuando se colapsa o expande
+    
+
+    // Crear el encabezado colapsable       
+    var header = container.firstChild;
+    var header = document.createElement('div');
+    header.style.background = '#2a7bf4';
+    header.style.color = '#fff';
+    header.style.padding = '10px 6px';
+    header.style.cursor = 'pointer';
+    header.style.fontWeight = 'bold';
+    header.textContent = 'Tipologías Territoriales';
+
+    // Crear el contenido colapsable
+    var content = document.createElement('div');
+    content.id = 'descripcionCollapseContent';
+    content.style.display = 'none';
+    content.style.padding = '8px';
+    content.style.fontSize = '10px';
+
+
+    // Alternar visibilidad al hacer clic en el encabezado
+    header.onclick = function() {
+        content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+    };
+
+    // Agregar elementos al contenedor
+    container.appendChild(header);
+    container.appendChild(content);
+
+    // Agregar el contenedor al body
+    document.body.appendChild(container);
+}
+
+// Llama a la función al cargar el DOM
+document.addEventListener('DOMContentLoaded', crearContenedorDescripcion);
+/**
+ * Mueve el contenido de agregarCuadroEstratificacion al contenedor colapsable de descripción.
+ */
+function moverContenidoEstratificacionADescripcion() {
+    // Esperar a que ambos contenedores existan
+    var descripcionContent = document.getElementById('descripcionCollapseContent');
+    var sidebar = document.getElementById('infoSidebar');
+    var header = document.getElementById('descripcionCollapseHeader'); // Agregar referencia al header
+    if (!descripcionContent || !sidebar) return;
+
+    // Limpiar el contenido anterior
+    descripcionContent.innerHTML = '';
+
+    // Verificar si ya se ha movido el contenido
+    if (descripcionContent.hasChildNodes()) return; // No mover si ya tiene nodos
+
+    // Mover el contenido relevante del sidebar al contenedor de descripción
+    // Excluye el botón de cerrar y el propio sidebar
+    Array.from(sidebar.childNodes).forEach(function(node) {
+        if (!(node.classList && node.classList.contains('close-btn'))) {
+            descripcionContent.appendChild(node.cloneNode(true));
+        }
+    });
+
+    // Oculta el sidebar y el botón de toggle
+    sidebar.style.display = 'none';
+    var toggleBtn = Array.from(document.body.querySelectorAll('button')).find(btn => btn.textContent === 'Estratificación');
+    if (toggleBtn) toggleBtn.style.display = 'none';
+    // Ocultar el encabezado cuando el contenedor esté colapsado
+    if (header) {
+        header.style.display = 'block';
+    }
+// Asegúrate de que el contenido esté visible por defecto (expandido)
+    if (descripcionContent.style.display === 'none') {
+        descripcionContent.style.display = 'block';
+    }
+}
+
+
+
+// Ejecutar después de cargar el DOM y los elementos
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(moverContenidoEstratificacionADescripcion, 100);
+});
+
+// Crear un botón flotante alineado a los controles (como el HomeButton)
+function crearBotonEstratificacionControl() {
+    // Evita duplicados
+    if (document.getElementById('estratificacionControlBtn')) return;
+
+    var btn = document.createElement('button');
+    btn.id = 'estratificacionControlBtn';
+    btn.title = 'Mostrar Tipologías Territoriales';
+    btn.classList.add('btns-control');  // Aplicar la clase CSS personalizada
+    btn.style.position = 'absolute';
+    btn.style.top = '30%'; // Ajusta según la posición de tus controles
+    // btn.style.left = '10px';
+    // btn.style.zIndex = 1001;
+    // btn.style.background = '#2a7bf4';
+    // btn.stle.color = '#fff';
+    // btn.style.border = 'none';
+    // btn.style.borderRadius = '4px';
+    // btn.style.padding = '8px 12px';
+    // btn.style.cursor = 'pointer';
+    // btn.style.boxShadow = '1px 1px 6px rgba(0,0,0,0.15)';
+    // btn.style.fontSize = '13px';
+    btn.innerHTML = '<span style="font-size:16px;vertical-align:middle;margin-right:6px;">&#128202;</span>Tipologías Territoriales';  // Ícono de gráfico de barras + texto
+
+    btn.onclick = function() {
+        var container = document.getElementById('descripcionCollapseContainer');
+        var content = document.getElementById('descripcionCollapseContent');
+        if (container && content) {
+            // Si está oculto, mostrar y expandir
+            content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+        }
+    };
+
+    document.body.appendChild(btn);
+}
+
+// Llama al crear el DOM
+document.addEventListener('DOMContentLoaded', crearBotonEstratificacionControl);
+
+L.Control.EstratificacionButton = L.Control.extend({
+     onAdd: function() {
+         var btn = L.DomUtil.create('button', 'leaflet-bar btns-control');  // Clase personalizada para el botón
+         btn.innerHTML = '<span>Estratificación</span>';  // Nombre del botón
+         btn.title = 'Mostrar Estratificación';
+      
+         // Estilo personalizado
+         btn.style.padding = '10px';
+         btn.style.backgroundColor = '#007bff';  // Color de fondo
+         btn.style.color = '#ffffff';  // Color de texto
+         btn.style.border = 'none';
+         btn.style.borderRadius = '5px';
+         btn.style.cursor = 'pointer';
+      
+         // Acción al hacer clic
+         btn.onclick = function() {
+             var container = document.getElementById('descripcionCollapseContainer');
+             var content = document.getElementById('descripcionCollapseContent');
+             if (container && content) {
+                 // Si está oculto, mostrar y expandir
+                 content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+             }
+         };
+
+        return btn;
+     },
+     onRemove: function() {}
+ });
+
+// Añadir el control al mapa (en la parte superior izquierda, pero puedes ajustarlo a 'topleft', 'bottomleft', etc.)
+map.addControl(new L.Control.EstratificacionButton({ position: 'topleft' }));
