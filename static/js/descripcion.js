@@ -209,7 +209,7 @@ function crearContenedorDescripcion() {
     container.style.position = 'fixed';
     container.style.top = '35%';
     container.style.left = '0.5%';
-    container.style.width = '350px';
+    container.style.width = '320px';
     // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
     // container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
     container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
