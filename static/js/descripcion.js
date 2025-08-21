@@ -160,7 +160,7 @@ function agregarCuadroEstratificacion() {
 
 // Crear el botón para mostrar/ocultar el sidebar
     var sidebarToggleButton = document.createElement('button');
-    sidebarToggleButton.textContent = 'Estratificación';
+    // sidebarToggleButton.textContent = 'Estratificación';
     sidebarToggleButton.style.position = 'absolute';
     sidebarToggleButton.style.top = '10px';
     sidebarToggleButton.style.left = '10px';
@@ -213,10 +213,11 @@ function crearContenedorDescripcion() {
     // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
     container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
     container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
-    container.style.overflow = 'flow'; // Permitir scroll si el contenido es largo
     container.style.zIndex = 1000;
     container.style.fontFamily = 'Arial, sans-serif';
     container.style.transition = 'height 0.3s ease';  // Para animar el tamaño cuando se colapsa o expande
+    container.style.maxHeight = '350px';
+    container.style.overflowY = 'auto';
     
 
     // Crear el encabezado colapsable       
@@ -238,6 +239,7 @@ function crearContenedorDescripcion() {
     content.style.transition = 'background-color 0.3s ease';  // Suaviza el cambio de color
     content.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';  // Transparente por defecto
     content.style.borderRadius = '6px 6px 6px 6px'; // Bordes redondeados en la parte inferior
+    content.style.maxHeight = '250px'; // Ajusta según lo que necesites
     content.style.overflowY = 'auto'; // Permitir scroll si el contenido es largo
 
     // Alternar visibilidad al hacer clic en el encabezado

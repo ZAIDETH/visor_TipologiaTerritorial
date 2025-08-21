@@ -35,6 +35,7 @@ window.onload = function() {
     // Crear texto
     const headerText = document.createElement('span');
     headerText.innerText = '🗂 Lista de Capas';
+    headerText.style.fontSize = '12px';
 
     // Mover el botón toggle dentro del header
     headerBar.appendChild(headerText);
@@ -105,10 +106,10 @@ window.onload = function() {
 
         // Ajustar el ancho cuando se colapsa
         if (!isLayersListExpanded) {
-            controlLayersElement.style.width = '100%';  // Ajuste el ancho al colapsar
+            controlLayersElement.style.width = '90%';  // Ajuste el ancho al colapsar
         } else {
             if (window.innerWidth < 650) {
-                controlLayersElement.style.width = '100%';  // Ajuste en pantallas pequeñas
+                controlLayersElement.style.width = '60%';  // Ajuste en pantallas pequeñas
             } else {
                 controlLayersElement.style.width = '60%';  // Ajuste en pantallas grandes
             }
