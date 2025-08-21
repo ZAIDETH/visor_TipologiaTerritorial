@@ -211,12 +211,12 @@ function crearContenedorDescripcion() {
     container.style.left = '0.5%';
     container.style.width = '350px';
     // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
-    container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
+    // container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
     container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
     container.style.zIndex = 1000;
     container.style.fontFamily = 'Arial, sans-serif';
     container.style.transition = 'height 0.3s ease';  // Para animar el tamaño cuando se colapsa o expande
-    container.style.maxHeight = '350px';
+    container.style.maxHeight = '100%';
     container.style.overflowY = 'auto';
     
 
@@ -239,7 +239,7 @@ function crearContenedorDescripcion() {
     content.style.transition = 'background-color 0.3s ease';  // Suaviza el cambio de color
     content.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';  // Transparente por defecto
     content.style.borderRadius = '6px 6px 6px 6px'; // Bordes redondeados en la parte inferior
-    content.style.maxHeight = '250px'; // Ajusta según lo que necesites
+    content.style.maxHeight = '100%'; // Ajusta según lo que necesites
     content.style.overflowY = 'auto'; // Permitir scroll si el contenido es largo
 
     // Alternar visibilidad al hacer clic en el encabezado
@@ -319,11 +319,18 @@ function crearBotonEstratificacionControl() {
     // btn.stle.color = '#fff';
     // btn.style.border = 'none';
     btn.style.borderRadius = '4px 4px 0 0'; // Bordes redondeados en la parte superior
-    // btn.style.padding = '8px 12px';
+    btn.style.padding = '4px 4px';
     // btn.style.cursor = 'pointer';
     // btn.style.boxShadow = '1px 1px 6px rgba(0,0,0,0.15)';
-    // btn.style.fontSize = '13px';
-    btn.innerHTML = '<span style="font-size:16px;vertical-align:middle;margin-right:6px;">&#128202;</span>Tipologías Territoriales';  // Ícono de gráfico de barras + texto
+    btn.style.fontSize = '13px';
+    btn.style.width = '130px'; // Ancho del botón
+    btn.style.display = 'inline-flex';
+    btn.style.alignItems = 'left';// Alineación vertical del icono y texto
+    btn.style.fontWeight =' bold'; // Negrita para destacar el texto
+    btn.style.justifyContent = 'flex-start'; // Alineación horizontal del icono y texto
+    btn.style.textAlign = 'left'; // Alineación del texto a la izquierda
+    // btn.style.whiteSpace = 'nowrap'; // Evita que el texto se divida en varias líneas
+    btn.innerHTML = '<span style="font-size:18px;vertical-align:middle;margin-right:6px;">&#128202;</span>Tipologías Territoriales';  // Ícono de gráfico de barras + texto
 
     btn.onclick = function() {
         var container = document.getElementById('descripcionCollapseContainer');
