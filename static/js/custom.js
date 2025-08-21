@@ -58,16 +58,16 @@ window.onload = function() {
     const logo = document.createElement('img');
     logo.src = 'static/img/LogoOficialMIDIS.jpg';
     logo.alt = 'Logo del MIDIS';
-    logo.style.height = '45px';
-    logo.style.marginRight = '15px';
+    logo.style.height = '90%';
+    logo.style.marginRight = '2%';
 
     const title = document.createElement('div');
     title.innerText = 'Visor de Tipologías territoriales de las prestaciones sociales';
-    title.style.fontSize = '18px';
+    title.style.fontSize = '100%';
     title.style.fontWeight = 'bold';
     title.style.color = '#fefefe';
     title.style.fontFamily = 'sans-serif';
-    title.style.textAlign = 'center';  // Asegura que el título se vea centrado
+    title.style.textAlign= 'left';  // Asegura que el título se vea centrado
 
     header.appendChild(logo);
     header.appendChild(title);

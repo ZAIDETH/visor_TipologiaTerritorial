@@ -28,6 +28,7 @@ function agregarCuadroEstratificacion() {
         table.style.width = '100%';
         table.style.border = '1px solid #ddd';
         table.style.textAlign = 'justify';  // Alinear el texto a la izquierda
+        table.style.overflowY = 'auto'; // Permitir scroll si el contenido es largo
 
         // Crear el encabezado de la tabla
         var thead = document.createElement('thead');
@@ -145,7 +146,13 @@ function agregarCuadroEstratificacion() {
             #descripcionCollapseContent.open {
                 display: block;
                 background-color: #ffffff; /* Fondo blanco cuando está abierto */
-            }  
+            }
+             /* Estilo responsivo */
+            @media (max-width: 650px) {
+                #infoSidebar {
+                    width: 80%;  /* Más grande en pantallas pequeñas */
+                }
+            }   
         `;
     }
 
@@ -202,11 +209,11 @@ function crearContenedorDescripcion() {
     container.style.position = 'fixed';
     container.style.top = '35%';
     container.style.left = '0.5%';
-    container.style.width = '25%';
+    container.style.width = '350px';
     // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
     container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
     container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
-    container.style.overflow = 'hidden';
+    container.style.overflow = 'flow'; // Permitir scroll si el contenido es largo
     container.style.zIndex = 1000;
     container.style.fontFamily = 'Arial, sans-serif';
     container.style.transition = 'height 0.3s ease';  // Para animar el tamaño cuando se colapsa o expande
@@ -231,6 +238,7 @@ function crearContenedorDescripcion() {
     content.style.transition = 'background-color 0.3s ease';  // Suaviza el cambio de color
     content.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';  // Transparente por defecto
     content.style.borderRadius = '6px 6px 6px 6px'; // Bordes redondeados en la parte inferior
+    content.style.overflowY = 'auto'; // Permitir scroll si el contenido es largo
 
     // Alternar visibilidad al hacer clic en el encabezado
     header.onclick = function() {
