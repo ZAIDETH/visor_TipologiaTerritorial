@@ -201,9 +201,9 @@ function crearContenedorDescripcion() {
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.position = 'fixed';
-    container.style.top = '30%';
+    container.style.top = '35%';
     container.style.left = '0.5%';
-    container.style.width = '320px';
+    container.style.width = '25%';
     // container.style.background= 'rgba(255, 255, 255, 0.9)'; // Fondo blanco con opacidad
     container.style.boxShadow = '2px 2px 8px rgba(0,0,0,0.2)';
     container.style.borderRadius = '6px 6px 0 0'; // Bordes redondeados en la parte superior
@@ -221,7 +221,7 @@ function crearContenedorDescripcion() {
     header.style.padding = '10px 6px';
     header.style.cursor = 'pointer';
     header.style.fontWeight = 'bold';
-    header.textContent = 'Tipologías Territoriales';
+    // header.textContent = 'Tipologías Territoriales';
 
     // Crear el contenido colapsable
     var content = document.createElement('div');
@@ -303,7 +303,7 @@ function crearBotonEstratificacionControl() {
     btn.title = 'Mostrar Tipologías Territoriales';
     btn.classList.add('btns-control');  // Aplicar la clase CSS personalizada
     btn.style.position = 'absolute';
-    btn.style.top = '30%'; // Ajusta según la posición de tus controles
+    btn.style.top = '32%'; // Ajusta según la posición de tus controles
     // btn.style.left = '10px';
     // btn.style.zIndex = 1001;
     // btn.style.background = '#2a7bf4';

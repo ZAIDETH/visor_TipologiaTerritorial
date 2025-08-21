@@ -77,4 +77,42 @@ window.onload = function() {
     const mapElement = document.getElementById('map');
     mapElement.style.width = '100%';
     mapElement.style.height = 'calc(100% - 60px)';  // Deja espacio para el encabezado
+    // Ajuste responsivo para la lista de capas
+    window.addEventListener('resize', function() {
+        if (window.innerWidth < 650) {
+            controlLayersElement.style.width = '60%';  // Más grande en pantallas pequeñas
+        } else {
+            controlLayersElement.style.width = '60%';  // Ancho más pequeño en pantallas grandes
+        }
+    });
+
+    // También asegúrate de que la lista de capas tenga un tamaño adecuado al cargar la página
+    if (window.innerWidth < 650) {
+        controlLayersElement.style.width = '60%';  // Más grande en pantallas pequeñas
+    } else {
+        controlLayersElement.style.width = '60%';  // Ancho más pequeño en pantallas grandes
+    }
+    // Ajuste de tamaño cuando el control de capas está colapsado
+    let isLayersListExpanded = true;
+
+    toggleControl.addEventListener('click', function() {
+        if (isLayersListExpanded) {
+            controlLayersElement.classList.remove('leaflet-control-layers-expanded');
+        } else {
+            controlLayersElement.classList.add('leaflet-control-layers-expanded');
+        }
+        isLayersListExpanded = !isLayersListExpanded;
+
+        // Ajustar el ancho cuando se colapsa
+        if (!isLayersListExpanded) {
+            controlLayersElement.style.width = '100%';  // Ajuste el ancho al colapsar
+        } else {
+            if (window.innerWidth < 650) {
+                controlLayersElement.style.width = '60%';  // Ajuste en pantallas pequeñas
+            } else {
+                controlLayersElement.style.width = '60%';  // Ajuste en pantallas grandes
+            }
+        }
+    });
 };
+
