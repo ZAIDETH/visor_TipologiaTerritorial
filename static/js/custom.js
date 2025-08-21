@@ -80,7 +80,7 @@ window.onload = function() {
     // Ajuste responsivo para la lista de capas
     window.addEventListener('resize', function() {
         if (window.innerWidth < 650) {
-            controlLayersElement.style.width = '80%';  // Más grande en pantallas pequeñas
+            controlLayersElement.style.width = '100%';  // Más grande en pantallas pequeñas
         } else {
             controlLayersElement.style.width = '60%';  // Ancho más pequeño en pantallas grandes
         }

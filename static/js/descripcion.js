@@ -145,13 +145,7 @@ function agregarCuadroEstratificacion() {
             #descripcionCollapseContent.open {
                 display: block;
                 background-color: #ffffff; /* Fondo blanco cuando está abierto */
-            }
-             /* Estilo responsivo */
-            @media (max-width: 750px) {
-                #infoSidebar {
-                    width: 100%;  /* Más grande en pantallas pequeñas */
-                }
-            }   
+            }  
         `;
     }
 
