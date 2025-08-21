@@ -147,9 +147,9 @@ function agregarCuadroEstratificacion() {
                 background-color: #ffffff; /* Fondo blanco cuando está abierto */
             }
              /* Estilo responsivo */
-            @media (max-width: 650px) {
+            @media (max-width: 750px) {
                 #infoSidebar {
-                    width: 80%;  /* Más grande en pantallas pequeñas */
+                    width: 100%;  /* Más grande en pantallas pequeñas */
                 }
             }   
         `;
