@@ -117,6 +117,7 @@
         <script src="js/leaflet.photon.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="data/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2.js"></script>
+        <script src="data/ConcentracindeProgramasSocialesydensidaddeusuarios_2.js"></script>
         <script src="data/PIASgeorreferenciadas_3.js"></script>
         <script src="data/Comedoresgeorreferenciados_4.js"></script>
         <script src="data/Tambos_5.js"></script>
@@ -241,6 +242,130 @@
         });
         layer_Satellite_1;
         map.addLayer(layer_Satellite_1);
+        
+        function pop_ConcentracindeProgramasSocialesydensidaddeusuarios_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+             var popupTitle = 'Concentración Programas Sociales'; // Título del popup
+            var popupContent = '<h3>' + popupTitle + '</h3>' +
+                '<table>\
+                    <tr>\
+                        <th scope="row">UBIGEO</th>\
+                        <td>' + (feature.properties['UBIGEO'] !== null ? autolinker.link(String(feature.properties['UBIGEO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Departamento</th>\
+                        <td>' + (feature.properties['Departamento'] !== null ? autolinker.link(String(feature.properties['Departamento']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Provincia</th>\
+                        <td>' + (feature.properties['Provincia'] !== null ? autolinker.link(String(feature.properties['Provincia']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Distrito</th>\
+                        <td>' + (feature.properties['Distrito'] !== null ? autolinker.link(String(feature.properties['Distrito']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Área km2</th>\
+                        <td>' + (feature.properties['Areakm2'] !== null ? autolinker.link(String(feature.properties['Areakm2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Concentración Programas</th>\
+                        <td colspan="2">' + (feature.properties['ConcentracionProgramas'] !== null ? autolinker.link(String(feature.properties['ConcentracionProgramas']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_ConcentracindeProgramasSocialesydensidaddeusuarios_2_0(feature) {
+            switch(String(feature.properties['ConcentracionProgramas'])) {
+                case 'Concentración Muy Alta':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(0,92,230,0.971)',
+                interactive: true,
+            }
+                    break;
+                case 'Concentración Alta':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(255,0,0,0.971)',
+                interactive: true,
+            }
+                    break;
+                case 'Concentración Media':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(0,168,132,0.5521372549019608)',
+                interactive: true,
+            }
+                    break;
+                case 'Concentración Baja':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(190,210,255,0.4607490196078431)',
+                interactive: true,
+            }
+                    break;
+                case 'Concentración Muy Baja':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(104,176,200,0.971)',
+                interactive: true,
+            }
+                    break;
+                case 'Sin Presencia de Programas':
+                    return {
+                pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 0.9,
+                fillColor: 'rgba(255,255,255,0.971)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2');
+        map.getPane('pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2').style.zIndex = 402;
+        map.getPane('pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2').style['mix-blend-mode'] = 'normal';
+        var layer_ConcentracindeProgramasSocialesydensidaddeusuarios_2 = new L.geoJson(json_ConcentracindeProgramasSocialesydensidaddeusuarios_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+            layerName: 'layer_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+            pane: 'pane_ConcentracindeProgramasSocialesydensidaddeusuarios_2',
+            onEachFeature: pop_ConcentracindeProgramasSocialesydensidaddeusuarios_2,
+            style: style_ConcentracindeProgramasSocialesydensidaddeusuarios_2_0,
+        });
+        bounds_group.addLayer(layer_ConcentracindeProgramasSocialesydensidaddeusuarios_2);
         function pop_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -259,7 +384,9 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
+             var popupTitle = 'Tipologías Territoriales'; // Título del popup
+            var popupContent = '<h3>' + popupTitle + '</h3>' +
+                '<table>\
                     <tr>\
                         <th scope="row">Tipologias</th>\
                         <td>' + (feature.properties['Tipologias'] !== null ? '<strong>'+autolinker.link(String(feature.properties['Tipologias']).replace(/'/g, '\'').toLocaleString())+'</strong>' : '') + '</td>\
@@ -401,7 +528,9 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
+             var popupTitle = 'PIAS georreferenciadas'; // Título del popup
+            var popupContent = '<h3>' + popupTitle + '</h3>' +
+                '<table>\
                     <tr>\
                         <th scope="row">CENTRO POBLADO</th>\
                         <td>' + (feature.properties['NOMBCCPP'] !== null ? autolinker.link(String(feature.properties['NOMBCCPP']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -536,7 +665,9 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
+             var popupTitle = 'Comedores georreferenciados'; // Título del popup
+            var popupContent = '<h3>' + popupTitle + '</h3>' +
+                '<table>\
                     <tr>\
                         <th scope="row">Semestre</th>\
                         <td>' + (feature.properties['Semestre'] !== null ? autolinker.link(String(feature.properties['Semestre']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -675,7 +806,9 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
+             var popupTitle = 'Tambos'; // Título del popup
+            var popupContent = '<h3>' + popupTitle + '</h3>' +
+                '<table>\
                     <tr>\
                         <th scope="row">MES</th>\
                         <td>' + (feature.properties['MES'] !== null ? autolinker.link(String(feature.properties['MES']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -1012,6 +1145,7 @@
             {label: '<img src="legend/Comedoresgeorreferenciados_4.png" /> Comedores georreferenciados', layer: layer_Comedoresgeorreferenciados_4},
             {label: '<img src="legend/PIASgeorreferenciadas_3.png" /> PIAS georreferenciadas', layer: layer_PIASgeorreferenciadas_3},
             {label: 'Tipologías Territoriales en la Intervención de los Programas Sociales<br /><table><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial10.png" /></td><td class="long-text">Tipología Territorial 1</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial21.png" /></td><td class="long-text">Tipología Territorial 2</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial32.png" /></td><td class="long-text">Tipología Territorial 3</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial43.png" /></td><td class="long-text">Tipología Territorial 4</td></tr><tr><td style="text-align: center;"><img src="legend/TipologiasTerritorialesenlaIntervencindelosProgramassociales_2_TipologíaTerritorial54.png" /></td><td class="long-text">Tipología Territorial 5</td></tr></table>', layer: layer_TipologiasTerritorialesenlaIntervencindelosProgramassociales_2},
+            {label: 'Concentración de Programas Sociales y densidad de usuarios<br /><table><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_ConcentraciónMuyAlta0.png" /></td><td>Concentración Muy Alta</td></tr><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_ConcentraciónAlta1.png" /></td><td>Concentración Alta</td></tr><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_ConcentraciónMedia2.png" /></td><td>Concentración Media</td></tr><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_ConcentraciónBaja3.png" /></td><td>Concentración Baja</td></tr><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_ConcentraciónMuyBaja4.png" /></td><td>Concentración Muy Baja</td></tr><tr><td style="text-align: center;"><img src="legend/ConcentracindeProgramasSocialesydensidaddeusuarios_2_SinPresenciadeProgramas5.png" /></td><td>Sin Presencia de Programas</td></tr></table>', layer: layer_ConcentracindeProgramasSocialesydensidaddeusuarios_2},
             {label: '<img src="legend/Distritos_8.png" /> Distritos', layer: layer_Distritos_8},
             {label: '<img src="legend/Provincias_7.png" /> Provincias', layer: layer_Provincias_7},
             {label: '<img src="legend/Departamentos_6.png" /> Departamentos', layer: layer_Departamentos_6},
