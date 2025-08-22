@@ -162,7 +162,9 @@
             url: 'https://services3.arcgis.com/cuUnbF3SDTclyJzA/ArcGIS/rest/services/PCA2025_republicar/FeatureServer/0', // URL del Feature Server
             onEachFeature: function (feature, layer) {
                 // Definir el contenido del popup
-                var popupContent = '<table>\
+                var popupTitle = 'Ollas Comunes:'; // Título del popup
+                var popupContent = '<h3>' + popupTitle + '</h3>' +
+                    '<table>\
                         <tr><th>Código Olla Común:</th><td>' + (feature.properties['Codigo_Olla_Comun'] !== null ? feature.properties['Codigo_Olla_Comun'] : 'N/A') + '</td></tr>\
                         <tr><th>Nombre Ollas Comunes:</th><td>' + (feature.properties['Nombre_Ollas_Comunes'] !== null ? feature.properties['Nombre_Ollas_Comunes'] : 'N/A') + '</td></tr>\
                         <tr><th>Total Usuarios:</th><td>' + (feature.properties['Total_Usuarios'] !== null ? feature.properties['Total_Usuarios'] : 'N/A') + '</td></tr>\
@@ -254,7 +256,7 @@
                 },
                 mouseover: highlightFeature,
             });
-             var popupTitle = 'Concentración Programas Sociales'; // Título del popup
+            var popupTitle = 'Concentración Programas Sociales'; // Título del popup
             var popupContent = '<h3>' + popupTitle + '</h3>' +
                 '<table>\
                     <tr>\
@@ -384,7 +386,7 @@
                 },
                 mouseover: highlightFeature,
             });
-             var popupTitle = 'Tipologías Territoriales'; // Título del popup
+            var popupTitle = 'Tipologías Territoriales'; // Título del popup
             var popupContent = '<h3>' + popupTitle + '</h3>' +
                 '<table>\
                     <tr>\
@@ -1279,7 +1281,6 @@
         </script>
         <!-- funcionabilidad mapa -->
         <script src="static/js/mainMap.js"></script>
-        <script src="static/js/home.js"></script>
-        <script src="static/js/descripcion.js"></script>  
+        <script src="static/js/home.js"></script> 
     </body>
 </html>
